@@ -54,10 +54,13 @@ namespace AutoIt
             void SetUtf16UnexpectedNullPercent(int percent);
             void SetUtf16ExpectedNullPercent(int percent);
 
-        private:
-            TextEncodingDetect(const TextEncodingDetect&);
-            const TextEncodingDetect& operator=(const TextEncodingDetect&);
+        public:
+            TextEncodingDetect(const TextEncodingDetect&) = delete;
+            TextEncodingDetect& operator=(const TextEncodingDetect&) = delete;
+            TextEncodingDetect(TextEncodingDetect&&) = delete; // no move operations
+            TextEncodingDetect& operator=(TextEncodingDetect&&) = delete;
 
+        private:
             static const unsigned char* utf16_bom_le_;
             static const unsigned char* utf16_bom_be_;
             static const unsigned char* utf8_bom_;
