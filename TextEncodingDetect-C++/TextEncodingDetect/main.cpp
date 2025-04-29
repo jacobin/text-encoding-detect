@@ -25,52 +25,52 @@ using namespace AutoIt::Common;
 
 int _tmain(int argc, TCHAR* argv[])
 {
-	if (argc != 2)
-	{
-		_tprintf(_T("\nUsage: %s filename."), argv[0]);
-		return 1;
-	}
-	
-	// Open file in binary mode
-	FILE *file = _tfopen(argv[1], _T("rb") );
+    if (argc != 2)
+    {
+        _tprintf(_T("\nUsage: %s filename."), argv[0]);
+        return 1;
+    }
 
-	if (file == NULL)
-	{
-		_tprintf(_T("\nCould not open file.\n"));
-		return 1;
-	}
+    // Open file in binary mode
+    FILE* file = _tfopen(argv[1], _T("rb"));
 
-	// Get file size
-	fseek(file, 0, SEEK_END);
-	long fsize = ftell(file);
-	fseek(file, 0, SEEK_SET);
+    if (file == NULL)
+    {
+        _tprintf(_T("\nCould not open file.\n"));
+        return 1;
+    }
 
-	// Read it all in
-	unsigned char *buffer = new unsigned char[fsize];
-	fread(buffer, fsize, 1, file);
-	fclose(file);
+    // Get file size
+    fseek(file, 0, SEEK_END);
+    long fsize = ftell(file);
+    fseek(file, 0, SEEK_SET);
 
-	// Detect the encoding
-	TextEncodingDetect textDetect;
-	TextEncodingDetect::Encoding encoding = textDetect.DetectEncoding(buffer, fsize);
+    // Read it all in
+    unsigned char* buffer = new unsigned char[fsize];
+    fread(buffer, fsize, 1, file);
+    fclose(file);
 
-	_tprintf(_T("\nEncoding: "));
-	if (encoding == TextEncodingDetect::None)
-		_tprintf(_T("Binary"));
-	else if (encoding == TextEncodingDetect::ASCII)
-		_tprintf(_T("ASCII (chars in the 0-127 range)"));
-	else if (encoding == TextEncodingDetect::ANSI)
-		_tprintf(_T("ANSI (chars in the range 0-255 range)"));
-	else if (encoding == TextEncodingDetect::UTF8_BOM || encoding == TextEncodingDetect::UTF8_NOBOM)
-		_tprintf(_T("UTF-8"));
-	else if (encoding == TextEncodingDetect::UTF16_LE_BOM || encoding == TextEncodingDetect::UTF16_LE_NOBOM)
-		_tprintf(_T("UTF-16 Little Endian"));
-	else if (encoding == TextEncodingDetect::UTF16_BE_BOM || encoding == TextEncodingDetect::UTF16_BE_NOBOM)
-		_tprintf(_T("UTF-16 Big Endian"));
+    // Detect the encoding
+    TextEncodingDetect textDetect;
+    TextEncodingDetect::Encoding encoding = textDetect.DetectEncoding(buffer, fsize);
 
-	// Free up
-	delete[] buffer;
+    _tprintf(_T("\nEncoding: "));
+    if (encoding == TextEncodingDetect::None)
+        _tprintf(_T("Binary"));
+    else if (encoding == TextEncodingDetect::ASCII)
+        _tprintf(_T("ASCII (chars in the 0-127 range)"));
+    else if (encoding == TextEncodingDetect::ANSI)
+        _tprintf(_T("ANSI (chars in the range 0-255 range)"));
+    else if (encoding == TextEncodingDetect::UTF8_BOM || encoding == TextEncodingDetect::UTF8_NOBOM)
+        _tprintf(_T("UTF-8"));
+    else if (encoding == TextEncodingDetect::UTF16_LE_BOM || encoding == TextEncodingDetect::UTF16_LE_NOBOM)
+        _tprintf(_T("UTF-16 Little Endian"));
+    else if (encoding == TextEncodingDetect::UTF16_BE_BOM || encoding == TextEncodingDetect::UTF16_BE_NOBOM)
+        _tprintf(_T("UTF-16 Big Endian"));
 
-	return 0;
+    // Free up
+    delete[] buffer;
+
+    return 0;
 }
 
